@@ -1,0 +1,66 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <chrono>
+
+
+void bubbleSort(std::vector<int>& vec) {
+    int n = vec.size();
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (vec[j] > vec[j + 1]) {
+                std::swap(vec[j], vec[j + 1]);
+            }
+        }
+    }
+}
+
+int main() {
+    const int vectorSize = 100000;
+    std::vector<int> data(vectorSize);
+
+    // Initialize the vector in descending order
+    for (int i = vectorSize; i > 0; --i) {
+        data.push_back(i);
+    }
+
+    
+    auto bubbleSortStart = std::chrono::high_resolution_clock::now();
+    bubbleSort(data);
+    auto bubbleSortEnd = std::chrono::high_resolution_clock::now();
+    auto bubbleSortDuration = std::chrono::duration_cast<std::chrono::milliseconds>(bubbleSortEnd - bubbleSortStart);
+
+    
+    std::cout << "Bubble Sort Execution Time: " << bubbleSortDuration.count() << " milliseconds\n";
+
+   
+    std::cout << "First 10 elements after sorting: ";
+    for (int i = 0; i < 10; ++i) {
+        std::cout << data[i] << " ";
+    }
+    std::cout << "\nLast 10 elements after sorting: ";
+    for (int i = vectorSize - 10; i < vectorSize; ++i) {
+        std::cout << data[i] << " ";
+    }
+
+ 
+    auto stlSortStart = std::chrono::high_resolution_clock::now();
+    std::sort(data.begin(), data.end());
+    auto stlSortEnd = std::chrono::high_resolution_clock::now();
+    auto stlSortDuration = std::chrono::duration_cast<std::chrono::milliseconds>(stlSortEnd - stlSortStart);
+
+  
+    std::cout << "\n\nSTL Sort Execution Time: " << stlSortDuration.count() << " milliseconds\n";
+
+    
+    std::cout << "First 10 elements after sorting: ";
+    for (int i = 0; i < 10; ++i) {
+        std::cout << data[i] << " ";
+    }
+    std::cout << "\nLast 10 elements after sorting: ";
+    for (int i = vectorSize - 10; i < vectorSize; ++i) {
+        std::cout << data[i] << " ";
+    }
+
+    return 0;
+}
